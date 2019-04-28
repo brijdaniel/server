@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+	<h1>Sprinkler</h1>
+	<h2>Status  
+	   	{% if status == 'True' %}
+	       <strong>on</strong></h2><div class="row"><div class="col-md-2">
+	       <a href="/sprinkler/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a></div></div>
+	   	{% else %}
+	       <strong>off</strong></h2><div class="row"><div class="col-md-2">
+	       <a href="/sprinkler/on" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a></div></div>
+		{% endif %}
+
+	<p>Last run: {{last_run}}</p>
+   	<p>Next run: {{next_run}}</p>
+   	<br></br>
+   	<p><a href="{{ url_for('sp_timer') }}">Set Timer</a></p>
+   	<p><a href="{{ url_for('sp_schedule') }}">Set Schedule</a></p>
+	
+{% endblock %}

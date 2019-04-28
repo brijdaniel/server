@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Sprinkler Schedule</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.minute.label }}<br>
+            {{ form.minute(size=32) }}
+            {% for error in form.minute.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.hour.label }}<br>
+            {{ form.hour(size=32) }}
+            {% for error in form.hour.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.dom.label }}<br>
+            {{ form.dom(size=32) }}
+            {% for error in form.dom.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.month.label }}<br>
+            {{ form.month(size=32) }}
+            {% for error in form.month.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.dow.label }}<br>
+            {{ form.dow(size=32) }}
+            {% for error in form.dow.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.use_schedule() }} {{ form.use_schedule.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
