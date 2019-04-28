@@ -1,23 +1,22 @@
-<html>
-    <head>
-      {% if title %}
-      <title>{{ title }} - PiHouse</title>
-      {% else %}
-      <title>PiHouse</title>
-      {% endif %}
-    </head>
-    <body>
-        <div><a href="{{ url_for('index') }}">Home</a></div>
-        <hr>
+{% extends 'bootstrap/base.html' %}
+
+
+{% block title %}
+  {% if title %}{{ title }} - PiHouse{% else %}PiHouse{% endif %}
+{% endblock %}
+
+{% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <div><a href="{{ url_for('index') }}">Home</a></div>
+    <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+            <div class="alert alert-info" role="alert">{{ message }}</div>
             {% endfor %}
-        </ul>
         {% endif %}
         {% endwith %}
+
         {% block app_content %}{% endblock %}
-    </body>
-</html>
+    </div>
+{% endblock %}
