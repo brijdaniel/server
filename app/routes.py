@@ -62,7 +62,7 @@ def sp_timer():
 		if not isinstance(redis.db.get('pihouse/sprinkler/timer'), int): 
 			mqtt.client.publish('pihouse/sprinkler/timer', "request")
 			sleep(0.1)
-		if not str(redis.db.get('pihouse/sprinkler/timer')) == "b'request'":
+		if not str(redis.db.get('pihouse/sprinkler/timer')) == "request":
 			flash('Timer is currently %s mins' %float(redis.db.get('pihouse/sprinkler/timer')))
 
 	elif request.method == 'POST' and form.validate_on_submit():
