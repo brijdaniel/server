@@ -3,13 +3,16 @@ from time import sleep
 from flask import render_template, flash, redirect, url_for, request
 from app import app, mqtt, redis
 from app.forms import SpScheduleForm, SpTimer
+from flask_breadcrumbs import register_breadcrumb
 
 @app.route('/')
 @app.route('/index')
+@register_breadcrumb(app, '.', 'Home')
 def index():
     return render_template('index.html')
 
 @app.route('/sprinkler')
+@register_breadcrumb(app, '.sprinkler', 'Sprinkler')
 def sprinkler():
 
 	status = redis.db.get('pihouse/sprinkler/status')
@@ -17,7 +20,7 @@ def sprinkler():
 	mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 	mqtt.client.publish('pihouse/sprinkler/schedule/next', "request")
 
-	sleep(0.1)
+	sleep(0.15)
 	
 	last_run = redis.db.get('pihouse/sprinkler/schedule/last')
 	next_run = redis.db.get('pihouse/sprinkler/schedule/next')
@@ -55,6 +58,7 @@ def action(action):
 	return render_template('sprinkler.html', **templateData)
 
 @app.route('/sprinkler/timer', methods=['GET','POST'])
+@register_breadcrumb(app, '.sprinkler.timer', 'Timer')
 def sp_timer():
 
 	form = SpTimer()
@@ -72,6 +76,7 @@ def sp_timer():
 	return render_template('sp_timer.html', title='Sprinkler Timer',form=form)
 
 @app.route('/sprinkler/schedule', methods=['GET', 'POST'])
+@register_breadcrumb(app, '.sprinkler.schedule', 'Schedule')
 def sp_schedule():
 	
 	form = SpScheduleForm()

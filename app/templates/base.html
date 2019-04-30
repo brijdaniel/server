@@ -7,7 +7,15 @@
 
 {% block content %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <div><a href="{{ url_for('index') }}">Home</a></div>
+    <!--<div><a href="{{ url_for('index') }}">Home</a></div> -->
+    
+    <div>
+    {%- for breadcrumb in breadcrumbs -%}
+        <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+        {{ '/' if not loop.last }}
+    {%- endfor -%}
+    </div>
+
     <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
