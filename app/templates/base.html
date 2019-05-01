@@ -9,16 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <div>
     <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">    
-    {%- for breadcrumb in breadcrumbs -%}
-        {% if loop.last %}
-        <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.text }}</li>
-        {% else %}
-        <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-        {{ ' / ' if not loop.last }}
-        {% endif %}
-    {%- endfor -%}
-    </ol>
+        <ol class="breadcrumb">    
+        {%- for breadcrumb in breadcrumbs -%}
+            {% if loop.last %}
+                <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.text }}</li>
+            {% elif loop.first %}
+                <a href="{{ breadcrumb.url }}"> 
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+            {% else %}
+                <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+            {% endif %}    
+            {% if not loop.last %}
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            {% endif %}
+        {%- endfor -%}
+        </ol>
     </nav>
     </div>
 
