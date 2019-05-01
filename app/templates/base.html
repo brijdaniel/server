@@ -6,14 +6,20 @@
 {% endblock %}
 
 {% block content %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<div><a href="{{ url_for('index') }}">Home</a></div> -->
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
     <div>
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">    
     {%- for breadcrumb in breadcrumbs -%}
+        {% if loop.last %}
+        <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.text }}</li>
+        {% else %}
         <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-        {{ '/' if not loop.last }}
+        {{ ' / ' if not loop.last }}
+        {% endif %}
     {%- endfor -%}
+    </ol>
+    </nav>
     </div>
 
     <div class="container">

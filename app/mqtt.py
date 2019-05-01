@@ -21,7 +21,8 @@ def on_message(client, userdata, msg):
 	payload_decode = str(msg.payload.decode("utf-8"))
 	print(topic+": "+payload_decode)
 	
-	redis.db.set(topic, payload_decode)
+	if not payload_decode == "request":
+		redis.db.set(topic, payload_decode)
 
 # Main loop
 def run():
@@ -29,8 +30,6 @@ def run():
 	client.on_message = on_message
 	client.on_connect = on_connect
 	client.connect(config.read('MQTT', 'server'), 1883, 60)
-
-	while True:
-		client.loop(0.01)
+	client.loop_start()	
 
 client = mqtt.Client(client_id=config.read('MQTT', 'client_id'))
