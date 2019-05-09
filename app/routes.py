@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from app import app, mqtt, redis
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
@@ -34,6 +34,7 @@ def sprinkler():
 	return render_template('sprinkler.html', **templateData)
 
 @app.route('/sprinkler/<action>')
+#@register_breadcrumb(app, '.off', 'Sprinkler')
 def action(action):
 	if action == "on":
 		if not redis.db.get('pihouse/sprinkler/status') == "True":
@@ -43,6 +44,10 @@ def action(action):
 		mqtt.client.publish('pihouse/sprinkler/control', "False")
 		mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 
+	sleep(0.2)
+	return jsonify({'status': redis.db.get('pihouse/sprinkler/status')})
+
+"""
 	# Allow time for pin status to change
 	sleep(0.2)
 	status = redis.db.get('pihouse/sprinkler/status')
@@ -56,7 +61,7 @@ def action(action):
 	}
 
 	return render_template('sprinkler.html', **templateData)
-
+"""
 @app.route('/sprinkler/timer', methods=['GET','POST'])
 @register_breadcrumb(app, '.sprinkler.timer', 'Timer')
 def sp_timer():

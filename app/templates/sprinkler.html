@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+<script type = "text/javascript" 
+src = "{{ url_for('static', filename = 'sprinkleraction.js') }}" >
+</script>
+
 <h1>Sprinkler</h1>
-	<h2>Status  
+	<h2>Status
+		<span id="if"> 
 	   	{% if status == 'True' %}
-	       <strong>on</strong></h2><div class="row"><div class="col-md-2">
-	       <a href="/sprinkler/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a></div></div>
+	       <strong>on</strong></h2>
+	       <div class="row"><div class="col-md-2">
+	       <span id="button"><a href="javascript:action('off')" 
+	       class="btn btn-block btn-lg btn-default" role="button">Turn off</a></span></div></div>
 	   	{% else %}
-	       <strong>off</strong></h2><div class="row"><div class="col-md-2">
-	       <a href="/sprinkler/on" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a></div></div>
+	       <strong>off</strong></h2>
+	       <div class="row"><div class="col-md-2">
+	       <span id="button"><a href="javascript:action('on')"
+	       class="btn btn-block btn-lg btn-primary" role="button">Turn on</a></span></div></div>
 		{% endif %}
+		</span> 
 
 	<p>Last run: {{last_run}}</p>
    	<p>Next run: {{next_run}}</p>
