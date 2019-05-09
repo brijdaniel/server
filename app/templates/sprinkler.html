@@ -2,7 +2,7 @@
 
 {% block app_content %}
 <script type = "text/javascript" src = "{{ url_for('static', filename = 'sprinkler.js') }}"></script>
-<body onload="javascript:status()">
+<body onload="javascript:status('{{ status }}')">
 
 <h1>Sprinkler</h1>
 	<h2>Status <span id="status"></span></h2>
