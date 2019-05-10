@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from app import app, mqtt, redis
+from app import app, mqtt, redis, convert
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
 
@@ -16,6 +16,7 @@ def index():
 def sprinkler():
 
 	status = redis.db.get('pihouse/sprinkler/status')
+	opposite = convert.convert(status)
 
 	mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 	mqtt.client.publish('pihouse/sprinkler/schedule/next', "request")
@@ -27,6 +28,7 @@ def sprinkler():
 	
 	templateData = {
 		'status' : status,
+		'opposite' : opposite,
 		'last_run' : last_run,
 		'next_run' : next_run
 	}
@@ -36,16 +38,17 @@ def sprinkler():
 @app.route('/sprinkler/<action>')
 #@register_breadcrumb(app, '.off', 'Sprinkler')
 def action(action):
-	if action == "on":
+	if action == 'on':
 		if not redis.db.get('pihouse/sprinkler/status') == "True":
 			mqtt.client.publish('pihouse/sprinkler/control', "True")
 
-	if action == "off":
+	if action == 'off':
 		mqtt.client.publish('pihouse/sprinkler/control', "False")
 		mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 
 	sleep(0.2)
-	return jsonify({'status': redis.db.get('pihouse/sprinkler/status')})
+	status = redis.db.get('pihouse/sprinkler/status')
+	return jsonify({'status': status, 'opposite': convert.convert(status)})
 
 """
 	# Allow time for pin status to change

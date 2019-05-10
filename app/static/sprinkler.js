@@ -1,19 +1,15 @@
-function status(status='False'){
-	// convert status to on/off
-	if (status = 'True') {
-		document.getElementById("status").innerHTML = 'on';
-		document.getElementById("opposite").innerHTML = 'off';
-		console.log('status = true')
-	} else {
-		document.getElementById("status").innerHTML = 'off';
-		document.getElementById("opposite").innerHTML = 'on';
-		console.log('status = false')
-	}
+function setelems(status, opposite){
+	// set html elems
+	//[stat, opp] = status(current)
+	document.getElementById("status").innerHTML = status;
+	document.getElementById("opposite").innerHTML = opposite;
+	console.log('status = ' + status);
 }
 
 function action(action){
 	$.get('sprinkler/' + action).done(function(response){
 		// change button and status
-		status(response)
+		// need to JSON.parse response so I can pass the args to setelems
+		setelems(status, opposite);
 	})
 }
