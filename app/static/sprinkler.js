@@ -3,7 +3,7 @@ function setelems(status, opposite){
 	document.getElementById("status").innerHTML = status;
 	document.getElementById("opposite").innerHTML = opposite;
 	window.opp=opposite;
-	if (status == 'True'){
+	if (status == 'on'){
 		document.getElementById("button").className = ("btn btn-block btn-lg btn-default")
 	} else {
 		document.getElementById("button").className = ("btn btn-block btn-lg btn-primary")
