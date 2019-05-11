@@ -6,11 +6,9 @@
 
 <h1>Sprinkler</h1>
 	<h2>Status <span id="status"></span></h2>
-		<span id="button">
-			<div class="row"><div class="col-md-2">
-				<a href="javascript:action('{{opposite}}')" class="btn btn-block btn-lg btn-default" role="button">Turn <span id="opposite"></span></div></a>
-			</div></div>
-		</span>
+		<div class="row"><div class="col-md-2">
+			<a id="button" onclick="javascript:action()" role="button">Turn <span id="opposite"></span></div></a>
+		</div></div>
 
 	<p>Last run: {{last_run}}</p>
    	<p>Next run: {{next_run}}</p>

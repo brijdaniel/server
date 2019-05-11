@@ -17,6 +17,7 @@ def sprinkler():
 
 	status = redis.db.get('pihouse/sprinkler/status')
 	opposite = convert.convert(status)
+	print(opposite)
 
 	mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 	mqtt.client.publish('pihouse/sprinkler/schedule/next', "request")
@@ -48,7 +49,7 @@ def action(action):
 
 	sleep(0.2)
 	status = redis.db.get('pihouse/sprinkler/status')
-	return jsonify({'status': status, 'opposite': convert.convert(status)})
+	return jsonify({"status": status, "opposite": convert.convert(status)})
 
 """
 	# Allow time for pin status to change
