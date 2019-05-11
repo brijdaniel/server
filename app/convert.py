@@ -4,3 +4,10 @@ def convert(status):
 	else:
 		opposite = 'on'
 	return opposite
+
+def switch(status):
+	if status == 'True':
+		switch = 'on'
+	else:
+		switch = 'off'
+	return switch
