@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from app import app, mqtt, redis, convert
+from app import app, mqtt, redis, convert, monitor
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
 
@@ -17,7 +17,6 @@ def sprinkler():
 
 	status = convert.switch(redis.db.get('pihouse/sprinkler/status'))
 	opposite = convert.convert(status)
-	print(opposite)
 
 	mqtt.client.publish('pihouse/sprinkler/schedule/last', "request")
 	mqtt.client.publish('pihouse/sprinkler/schedule/next', "request")
@@ -37,11 +36,11 @@ def sprinkler():
 	return render_template('sprinkler.html', **templateData)
 
 @app.route('/sprinkler/<action>')
-#@register_breadcrumb(app, '.off', 'Sprinkler')
 def action(action):
 	if action == 'on':
 		if not redis.db.get('pihouse/sprinkler/status') == "True":
 			mqtt.client.publish('pihouse/sprinkler/control', "True")
+			monitor.run()
 
 	if action == 'off':
 		mqtt.client.publish('pihouse/sprinkler/control', "False")

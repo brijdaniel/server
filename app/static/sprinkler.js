@@ -11,9 +11,12 @@ function setelems(status, opposite){
 }
 
 function action(){
-	act=window.opp;
-	$.get('sprinkler/' + act).done(function(response){
+	$.get('sprinkler/' + window.opp).done(function(response){
 		// change button and status
 		setelems(response.status, response.opposite);
 	})
 }
+
+window.socket.on('statechange', function statechange(change){
+	setelems(change.status, change.opposite);
+})
