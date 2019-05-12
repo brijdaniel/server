@@ -17,6 +17,11 @@ function action(){
 	})
 }
 
-window.socket.on('statechange', function statechange(change){
-	setelems(change.status, change.opposite);
-})
+//  want to abstract this to socket.js and just keep the callback fn here
+$(document).ready(function() {
+	window.socket = io.connect();
+	console.log("socket connected");
+	socket.on('statechange', function statechange(change){
+		setelems(change.status, change.opposite);
+	});
+});
