@@ -1,9 +1,10 @@
 import os
 from time import sleep
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from app import app, mqtt, redis, convert, monitor
+from app import app, mqtt, redis, convert, monitor, socketio
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
+from flask_socketio import emit
 
 @app.route('/')
 @app.route('/index')
@@ -48,6 +49,7 @@ def action(action):
 
 	sleep(0.2)
 	status = redis.db.get('pihouse/sprinkler/status')
+	socketio.emit('statechange', {"status": convert.switch(status), "opposite": convert.convert(status)})
 	return jsonify({"status": convert.switch(status), "opposite": convert.convert(status)})
 
 """
