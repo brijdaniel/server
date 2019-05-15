@@ -11,14 +11,11 @@ function setelems(status, opposite){
 };
 
 function action(){
+	// send get request with action to server
 	$.get('sprinkler/' + window.opp)
 };
 
-//  want to abstract this to socket.js and just keep the callback fn here
-$(document).ready(function() {
-	window.socket = io.connect();
-	console.log("socket connected");
-	socket.on('statechange', function statechange(change){
-		setelems(change.status, change.opposite);
-	});
+//  Callback from socket msg 'statechange'
+window.socket.on('statechange', function statechange(change){
+	setelems(change.status, change.opposite);
 });
