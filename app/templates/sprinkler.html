@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<script type = "text/javascript" src = "{{ url_for('static', filename = 'sprinkler.js') }}"></script>
+<script type = "text/javascript" src = "{{url_for('static', filename = 'sprinkler.js')}}"></script>
 <body onload="javascript:setelems('{{status}}', '{{opposite}}')">
 
 <h1>Sprinkler</h1>
 	<h2>Status <span id="status"></span></h2>
 		<div class="row"><div class="col-md-2">
-			<a id="button" onclick="javascript:action()" role="button">Turn <span id="opposite"></span></div></a>
+			<a id="button" onclick="javascript:action()" role="button">Turn <span id="opposite"></span></a>
 		</div></div>
 
 	<p>Last run: {{last_run}}</p>
    	<p>Next run: {{next_run}}</p>
-   	<br></br>
-   	<p><a href="{{ url_for('sp_timer') }}">Set Timer</a></p>
-   	<p><a href="{{ url_for('sp_schedule') }}">Set Schedule</a></p>
-	
+
+	<a href="{{url_for('sp_timer')}}"><img src = "{{url_for('static', filename = 'timer.JPG')}}" width="82" height="82" title="Timer"></a>
+	<a href="{{url_for('sp_schedule')}}"><img src = "{{url_for('static', filename = 'schedule.JPG')}}" width="82" height="82" title="Schedule"></a>
+
 {% endblock %}
