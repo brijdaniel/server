@@ -10,8 +10,8 @@
 			<a id="button" onclick="javascript:action()" role="button">Turn <span id="opposite"></span></a>
 		</div></div>
 
-	<p>Last run: {{last_run}}</p>
-   	<p>Next run: {{next_run}}</p>
+	<p><small class="text-muted">Last run: {{last_run}}</small><br>
+   	<small class="text-muted">Next run: {{next_run}}</small></p>
 
 	<a href="{{url_for('sp_timer')}}"><img src = "{{url_for('static', filename = 'timer.JPG')}}" width="82" height="82" title="Timer"></a>
 	<a href="{{url_for('sp_schedule')}}"><img src = "{{url_for('static', filename = 'schedule.JPG')}}" width="82" height="82" title="Schedule"></a>
