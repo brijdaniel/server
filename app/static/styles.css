@@ -2,8 +2,12 @@ div.dropdown-backdrop {
 	position:relative; 
 }
 nav.navmenu {
-	width: 100px
+	width: 100px;
 }
 header.navbar {
-	padding-top: 0px
+	padding-top: 0px;
+}
+button.navbar-toggler {
+	background: transparent;
+	border: none;
 }
