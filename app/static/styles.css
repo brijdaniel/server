@@ -9,5 +9,11 @@ header.navbar {
 }
 button.navbar-toggler {
 	background: transparent;
-	border: none;
+	border: 1px solid lightgrey;
+	border-left: none;
+	border-spacing: 10px;
+}
+
+#sprinkler {
+	padding-left: 0px;
 }

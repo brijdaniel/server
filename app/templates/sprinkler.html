@@ -4,6 +4,7 @@
 <script type = "text/javascript" src = "{{url_for('static', filename = 'sprinkler.js')}}"></script>
 <body onload="javascript:setelems('{{status}}', '{{opposite}}')">
 
+<div id="sprinkler">
 <h1>Sprinkler</h1>
 	<h2>Status <span id="status"></span></h2>
 		<div class="row"><div class="col-md-2">
@@ -15,5 +16,5 @@
 
 	<a href="{{url_for('sp_timer')}}"><img src = "{{url_for('static', filename = 'timer.JPG')}}" width="82" height="82" title="Timer"></a>
 	<a href="{{url_for('sp_schedule')}}"><img src = "{{url_for('static', filename = 'schedule.JPG')}}" width="82" height="82" title="Schedule"></a>
-
+</div>
 {% endblock %}
