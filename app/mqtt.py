@@ -21,8 +21,13 @@ def on_message(client, userdata, msg):
 	payload_decode = str(msg.payload.decode("utf-8"))
 	print(topic+": "+payload_decode)
 	
+	# Ignore status request from server to sprinkler controller
 	if not payload_decode == "request":
 		redis.db.set(topic, payload_decode)
+
+	# Handle status request from window controller
+	if topic == "pihouse/windows/status" and payload_decode == "request":
+		client.publish('pihouse/windows/status', redis.db.get(topic))
 
 # Main loop
 def run():

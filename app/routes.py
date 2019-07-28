@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from app import app, mqtt, redis, convert, monitor, socketio
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
@@ -41,7 +41,7 @@ def action(action):
 	if action == 'on':
 		if not redis.db.get('pihouse/sprinkler/status') == "True":
 			mqtt.client.publish('pihouse/sprinkler/control', "True")
-			monitor.run()
+			monitor.run(channel='sprinkler')
 
 	if action == 'off':
 		mqtt.client.publish('pihouse/sprinkler/control', "False")
@@ -88,6 +88,35 @@ def sp_schedule():
 		flash('Schedule set!')
 
 	return render_template('sp_schedule.html', title='Sprinkler Schedule',form=form)
+
+@app.route('/windows')
+@register_breadcrumb(app, '.windows', 'Windows')
+def windows():
+
+	status = convert.switch(redis.db.get('pihouse/windows/status'))
+	opposite = convert.convert(status)
+	
+	templateData = {
+		'status' : status,
+		'opposite' : opposite,
+	}
+	return render_template('sprinkler.html', **templateData)
+
+@app.route('/windows/<action>')
+def win_action(action):
+	if action == 'open':
+		if not redis.db.get('pihouse/windows/status') == "True":
+			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'open', 'rotations':5}))
+			#monitor.run(channel='windows')
+
+	if action == 'close':
+		if not redis.db.get('pihouse/windows/status') == "False":
+			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'close', 'rotations':5}))
+
+	sleep(0.2)
+	status = redis.db.get('pihouse/windows/status')
+	socketio.emit('statechange', {"status": convert.switch(status), "opposite": convert.convert(status)})
+	return ('', 204)
 
 """
 @app.route('/sprinkler/log')
