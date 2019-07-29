@@ -1,6 +1,6 @@
-import os
+import os, json
 from time import sleep
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import render_template, flash, redirect, url_for, request
 from app import app, mqtt, redis, convert, monitor, socketio
 from app.forms import SpScheduleForm, SpTimer
 from flask_breadcrumbs import register_breadcrumb
@@ -106,13 +106,17 @@ def windows():
 def win_action(action):
 	if action == 'on':
 		if not redis.db.get('pihouse/windows/status') == "True":
-			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'open', 'rotations':5}))
+			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'open', 'rotations':5}))
 			#monitor.run(channel='windows')
 
 	if action == 'off':
 		if not redis.db.get('pihouse/windows/status') == "False":
-			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'close', 'rotations':5}))
+			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'close', 'rotations':5}))
 
+	"""
+	this section doesnt work if button is pressed while window state is changing
+	need to disable button between publish of control msg and receipt of new status msg
+	"""
 	sleep(0.2)
 	status = redis.db.get('pihouse/windows/status')
 	socketio.emit('statechange', {"status": convert.switch(status), "opposite": convert.convert(status)})

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<script type = "text/javascript" src = "{{url_for('static', filename = 'sprinkler.js')}}"></script>
+<body onload="javascript:setelems('{{status}}', '{{opposite}}')">
+
+<div id="sprinkler">
+<h1>Windows</h1>
+	<h2>Status <span id="status"></span></h2>
+		<div class="row"><div class="col-md-2">
+			<a id="button" onclick="javascript:action('windows')" role="button">Turn <span id="opposite"></span></a>
+		</div></div>
+</div>
+{% endblock %}
