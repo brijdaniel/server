@@ -18,3 +18,10 @@ def convert(status):
 	elif status in list_false:
 		opposite = list_true[list_false.index(status)]
 		return opposite
+
+def switch(status):
+	if status == 'True':
+		switch = 'on'
+	else:
+		switch = 'off'
+	return switch
