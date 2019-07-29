@@ -8,8 +8,8 @@ Changelog: Major change, added lists for interchangibility
 between terms. Removed 'switch' function as it was made redundant
 by adding 'True'/'False' to the lists
 """
-list_true = ['True', 'on', 'open', 'up']
-list_false = ['False', 'off', 'closed', 'down']
+list_true = ['on', 'open', 'up']
+list_false = ['off', 'closed', 'down']
 
 def convert(status):
 	if status in list_true:
