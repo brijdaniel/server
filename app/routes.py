@@ -100,16 +100,16 @@ def windows():
 		'status' : status,
 		'opposite' : opposite,
 	}
-	return render_template('sprinkler.html', **templateData)
+	return render_template('windows.html', **templateData)
 
 @app.route('/windows/<action>')
 def win_action(action):
-	if action == 'open':
+	if action == 'on':
 		if not redis.db.get('pihouse/windows/status') == "True":
 			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'open', 'rotations':5}))
 			#monitor.run(channel='windows')
 
-	if action == 'close':
+	if action == 'off':
 		if not redis.db.get('pihouse/windows/status') == "False":
 			mqtt.client.publish('pihouse/windows/control', jsonify({'direction':'close', 'rotations':5}))
 

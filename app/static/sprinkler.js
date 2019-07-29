@@ -1,3 +1,6 @@
+// JS to handle button routines. Originally written for sprinkler only, but now
+// made more generic for windows, blinds etc compatibility
+
 function setelems(status, opposite){
 	// set html elems
 	document.getElementById("status").innerHTML = status;
@@ -10,9 +13,9 @@ function setelems(status, opposite){
 	};
 };
 
-function action(){
+function action(route){
 	// send get request with action to server
-	$.get('sprinkler/' + window.opp)
+	$.get(route + '/' + window.opp)
 };
 
 //  Callback from socket msg 'statechange'
