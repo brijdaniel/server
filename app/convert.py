@@ -5,8 +5,9 @@ depending on current status / state changes
 This is generic and used for sprinkler, windows etc 
 
 Changelog: Major change, added lists for interchangibility
-between terms. Removed 'switch' function as it was made redundant
-by adding 'True'/'False' to the lists
+between terms. Removed 'switch' function as list capability
+added to convert means I can just use on/off etc as status'
+instead of having to use true/false and then convert
 """
 list_true = ['on', 'open', 'up']
 list_false = ['off', 'closed', 'down']

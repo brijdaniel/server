@@ -92,8 +92,9 @@ def sp_schedule():
 @app.route('/windows')
 @register_breadcrumb(app, '.windows', 'Windows')
 def windows():
-
-	status = convert.switch(redis.db.get('pihouse/windows/status'))
+	# if I just set status as open/closed instead of true/false then I dont need to use switch
+	# this can be adapted to sprinkler later too
+	status = redis.db.get('pihouse/windows/status')
 	opposite = convert.convert(status)
 	
 	templateData = {
@@ -104,14 +105,15 @@ def windows():
 
 @app.route('/windows/<action>')
 def win_action(action):
+	rotations = 5 # number of handle-turns to open/close window
 	if action == 'on':
-		if not redis.db.get('pihouse/windows/status') == "True":
-			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'open', 'rotations':5}))
+		if not redis.db.get('pihouse/windows/status') == 'open':
+			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'open', 'rotations':rotations}))
 			#monitor.run(channel='windows')
 
 	if action == 'off':
-		if not redis.db.get('pihouse/windows/status') == "False":
-			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'close', 'rotations':5}))
+		if not redis.db.get('pihouse/windows/status') == 'closed':
+			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'close', 'rotations':rotations}))
 
 	"""
 	this section doesnt work if button is pressed while window state is changing
@@ -119,7 +121,7 @@ def win_action(action):
 	"""
 	sleep(0.2)
 	status = redis.db.get('pihouse/windows/status')
-	socketio.emit('statechange', {"status": convert.switch(status), "opposite": convert.convert(status)})
+	socketio.emit('statechange', {"status": status, "opposite": convert.convert(status)})
 	return ('', 204)
 
 """
