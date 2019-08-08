@@ -9,8 +9,8 @@ between terms. Removed 'switch' function as list capability
 added to convert means I can just use on/off etc as status'
 instead of having to use true/false and then convert
 """
-list_true = ['on', 'open', 'up']
-list_false = ['off', 'closed', 'down']
+list_true = ['on', 'open', 'open', 'up']
+list_false = ['off', 'close', 'closed', 'down']
 
 def convert(status):
 	if status in list_true:

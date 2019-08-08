@@ -105,13 +105,13 @@ def windows():
 
 @app.route('/windows/<action>')
 def win_action(action):
-	rotations = 5 # number of handle-turns to open/close window
-	if action == 'on':
+	rotations = 1 # number of handle-turns to open/close window
+	if action == 'open':
 		if not redis.db.get('pihouse/windows/status') == 'open':
 			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'open', 'rotations':rotations}))
 			#monitor.run(channel='windows')
 
-	if action == 'off':
+	if action == 'close':
 		if not redis.db.get('pihouse/windows/status') == 'closed':
 			mqtt.client.publish('pihouse/windows/control', json.dumps({'direction':'close', 'rotations':rotations}))
 
