@@ -6,7 +6,8 @@ function setelems(status, opposite){
 	document.getElementById("status").innerHTML = status;
 	document.getElementById("opposite").innerHTML = opposite;
 	window.opp=opposite;
-	if (status == 'on'){
+	// if status is one of on, open or up
+	if (['on','open','up'].includes(status)){
 		document.getElementById("button").className = ("btn btn-block btn-lg btn-default");
 	} else {
 		document.getElementById("button").className = ("btn btn-block btn-lg btn-primary");
